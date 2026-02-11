@@ -1,0 +1,28 @@
+name: WORM-AI-SERVER
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 */6 * * *' # إعادة تشغيل تلقائية كل 6 ساعات لضمان بقائه حياً
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install pyTelegramBotAPI requests
+
+      - name: Run WORM-AI Bot
+        env:
+          PYTHONUNBUFFERED: 1
+        run: python bot.py
+
